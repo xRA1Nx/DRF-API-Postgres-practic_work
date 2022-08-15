@@ -16,7 +16,7 @@ class Company(models.Model):
         return self.name
 
 
-class Pill(models.Model):
+class Bill(models.Model):
     date = models.DateField()
     summ = models.FloatField()
     internal_number = models.IntegerField()

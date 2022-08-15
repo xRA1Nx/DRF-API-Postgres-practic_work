@@ -1,6 +1,6 @@
 import datetime
 from rest_framework import serializers
-from .models import Company, Client, Pill
+from .models import Company, Client, Bill
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -39,11 +39,11 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class ParserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Pill
+        model = Bill
         fields = "__all__"
 
 
-class PillSerializer(serializers.ModelSerializer):
+class BillSerializer(serializers.ModelSerializer):
     company = CompanyNestedSerializer()
 
     def validate_summ(self, value):
@@ -69,5 +69,5 @@ class PillSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError("поле 'internal_number' заполнено не корректно")
 
     class Meta:
-        model = Pill
+        model = Bill
         fields = "__all__"

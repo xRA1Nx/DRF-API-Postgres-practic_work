@@ -4,10 +4,10 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, mixins
-from .models import Client, Company, Pill
-from .serializers import ClientSerializer, ParserSerializer, CompanySerializer, PillSerializer
-from .filters import PillFilter
-from .paginators import PillsPagination
+from .models import Client, Company, Bill
+from .serializers import ClientSerializer, ParserSerializer, CompanySerializer, BillSerializer
+from .filters import BillFilter
+from .paginators import BillsPagination
 
 
 class ParserView(APIView):
@@ -15,7 +15,7 @@ class ParserView(APIView):
     def get(self, request):
         companies = Company.objects.all()
         clients = Client.objects.all()
-        pills = Pill.objects.all()
+        bills = Bill.objects.all()
 
         pars_data = pandas.read_excel('bills.xlsx', sheet_name='Лист1').values
 
@@ -59,7 +59,7 @@ class ParserView(APIView):
                 cash_companys[company_name] = company_id  # записываем в кэш
 
             """обрабатываем данные Счетов и сохраняем если валидны"""
-            pill_data = {
+            bill_data = {
                 'company': cash_companys[company_name],
                 'internal_number': row[2],
                 'summ': row[3],
@@ -67,21 +67,21 @@ class ParserView(APIView):
                 'service': row[5],
             }
 
-            pill_serializer = ParserSerializer(data=pill_data)
+            bill_serializer = ParserSerializer(data=bill_data)
 
-            if pill_serializer.is_valid():
+            if bill_serializer.is_valid():
                 # у каждой компании номер счета уникален
-                pill = pills.filter(Q(internal_number=internal_number) & Q(company=cash_companys[company_name]))
+                bill = bills.filter(Q(internal_number=internal_number) & Q(company=cash_companys[company_name]))
                 # если в БД нет такого счета то записываем его
-                if not pill.exists():
-                    pill_serializer.save()
+                if not bill.exists():
+                    bill_serializer.save()
 
         return Response('данные обновлены')
 
 
-class PillView(viewsets.ModelViewSet):
-    queryset = Pill.objects.all()
-    serializer_class = PillSerializer
+class BillView(viewsets.ModelViewSet):
+    queryset = Bill.objects.all()
+    serializer_class = BillSerializer
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_class = PillFilter
-    pagination_class = PillsPagination
+    filterset_class = BillFilter
+    pagination_class = BillsPagination
