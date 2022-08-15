@@ -3,7 +3,8 @@
 1 - установить все зависимости: pip install -r req.txt
 2 - сделать миграции : python manage.py makemigrations
 3 - применить миграции : python manage.py migrate
-4 - запуск проекта - python manage.py runserver
+4 - установить свой SECRET_KEY (на прямую в settings.py или в .env c именем 'KEY')
+5 - запуск проекта - python manage.py runserver
 
 Урлы:
   документация:
