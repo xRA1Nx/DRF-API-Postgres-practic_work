@@ -28,3 +28,8 @@ class Bill(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['internal_number', 'company'], name='company_pill')
         ]
+
+
+class ServiceClass(models.Model):
+    name = models.CharField(max_length=20)
+    code = models.IntegerField()

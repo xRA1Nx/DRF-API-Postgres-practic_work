@@ -4,7 +4,7 @@ from .views import ParserView, BillView
 from .yasg import urlpatterns as doc_urls
 
 router = routers.DefaultRouter()
-router.register(r'pills', BillView)
+router.register(r'bills', BillView)
 
 
 app_name = 'API'
