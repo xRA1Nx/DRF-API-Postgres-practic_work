@@ -1,8 +1,8 @@
 <b>Запуск проекта:</b><br>
-  подтготовка:<br>
+  -подтготовка:<br>
     docker-compose build - создаем/загружаем сервисы<br>
     docker-compose run web python manage.py migrate - применяем миграции<br>
-  старт проекта:<br>
+  -старт проекта:<br>
 docker-compose up<br>
 
 
