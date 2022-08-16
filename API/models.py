@@ -16,11 +16,21 @@ class Company(models.Model):
         return self.name
 
 
+class ServiceClass(models.Model):
+    name = models.CharField(max_length=20)
+    code = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+
 class Bill(models.Model):
     date = models.DateField()
     summ = models.FloatField()
     internal_number = models.IntegerField()
     service = models.CharField(max_length=255)
+    service_class = models.ForeignKey(ServiceClass, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     class Meta:
@@ -28,8 +38,3 @@ class Bill(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['internal_number', 'company'], name='company_pill')
         ]
-
-
-class ServiceClass(models.Model):
-    name = models.CharField(max_length=20)
-    code = models.IntegerField()

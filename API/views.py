@@ -2,29 +2,40 @@ import os
 
 import django_filters
 import pandas
+import glob
+import random
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, mixins
-from .models import Client, Company, Bill
+from .models import Client, Company, Bill, ServiceClass
 from .serializers import ClientSerializer, ParserSerializer, CompanySerializer, BillSerializer
 from .filters import BillFilter
 from .paginators import BillsPagination
-import glob
 
 
 class ParserView(APIView):
 
     def get(self, request):
+
+        # делаем запросы к бд для дальнейшей работы с данными
         companies = Company.objects.all()
         clients = Client.objects.all()
         bills = Bill.objects.all()
-        # files = ['bills.xlsx']
+        service_classes = ServiceClass.objects.all()
 
         # кэши позволяют снизить количество запросов к БД
         cash_clients = {}
         cash_companys = {}
-        path = os.path.dirname(os.path.abspath(__file__))
+
+        # если 1-й раз парсим, то наполняем таблицу ServiceClass
+        if not service_classes:
+            ServiceClass.objects.create(name='консультация', code=1)
+            ServiceClass.objects.create(name='лечение', code=2)
+            ServiceClass.objects.create(name='стационар', code=3)
+            ServiceClass.objects.create(name='диагностика', code=4)
+            ServiceClass.objects.create(name='лаборатория', code=5)
+            service_classes = ServiceClass.objects.all()
 
         for file in glob.glob('clients_bills/*.xlsx'):
             client_name = os.path.basename(file).split('_')[0]
@@ -38,7 +49,7 @@ class ParserView(APIView):
             serv_ind = - 100
 
             # получаем индексы столбцов исходя из их названия (столбцы могут располагаться в любом порядке)
-            def check_data(keywords: set, index: int) -> bool: # функция обработчик
+            def check_data(keywords: set, index: int) -> bool:  # функция обработчик
                 for word in keywords:
                     if word in pars_colums[index].lower():
                         return True
@@ -101,6 +112,7 @@ class ParserView(APIView):
                     'summ': summ,
                     'date': date_in.strftime("%Y-%m-%d"),
                     'service': service,
+                    'service_class': random.randrange(service_classes[0].id, service_classes[0].id + len(service_classes))
                 }
 
                 bill_serializer = ParserSerializer(data=bill_data)
@@ -111,6 +123,8 @@ class ParserView(APIView):
                     # если в БД нет такого счета то записываем его
                     if not bill.exists():
                         bill_serializer.save()
+                else:
+                    print(bill_serializer.errors)
 
         return Response('данные обновлены')
 

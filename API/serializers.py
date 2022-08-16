@@ -1,6 +1,6 @@
 import datetime
 from rest_framework import serializers
-from .models import Company, Client, Bill
+from .models import Company, Client, Bill, ServiceClass
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -43,8 +43,15 @@ class ParserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ServiceClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceClass
+        exclude = ['id', ]
+
+
 class BillSerializer(serializers.ModelSerializer):
     company = CompanyNestedSerializer()
+    service_class = ServiceClassSerializer()
 
     def validate_summ(self, value):
         if type(value) in [float, int]:
