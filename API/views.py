@@ -7,7 +7,7 @@ import random
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets
 from .models import Client, Company, Bill, ServiceClass
 from .serializers import ClientSerializer, ParserSerializer, CompanySerializer, BillSerializer
 from .filters import BillFilter
