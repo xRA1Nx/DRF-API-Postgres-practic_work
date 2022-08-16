@@ -1,10 +1,10 @@
-<b>Запуск проекта:</b>
-<p>
-1 - установить все зависимости: pip install -r req.txt <br>
-2 - сделать миграции : python manage.py makemigrations <br>
-3 - применить миграции : python manage.py migrate <br>
-4 - установить свой SECRET_KEY (на прямую в settings.py или в .env c именем 'KEY') <br>
-5 - запуск проекта - python manage.py runserver</p> <br>
+<b>Запуск проекта:</b><br>
+  подтготовка:<br>
+    docker-compose build - создаем/загружаем сервисы<br>
+    docker-compose run web python manage.py migrate - применяем миграции<br>
+  старт проекта:<br>
+docker-compose up<br>
+
 
 <strong>Урлы:</strong><br>
   документация:<br>
