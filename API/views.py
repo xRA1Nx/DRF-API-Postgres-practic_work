@@ -48,13 +48,14 @@ class ParserView(APIView):
             date_ind = -100
             serv_ind = - 100
 
-            # получаем индексы столбцов исходя из их названия (столбцы могут располагаться в любом порядке)
-            def check_data(keywords: set, index: int) -> bool:  # функция обработчик
+            # функция обработчик, проверяющаа есть ли слова keywords в названии поля
+            def check_data(keywords: set, index: int) -> bool:
                 for word in keywords:
                     if word in pars_colums[index].lower():
                         return True
                 return False
 
+            # получаем индексы столбцов исходя из их названия (столбцы могут располагаться в любом порядке)
             for i in range(len(pars_colums)):
                 if check_data({'org', }, i):
                     company_ind = i
