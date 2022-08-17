@@ -1,5 +1,4 @@
-<b>UPD</b>: Данные наработки произведены уже после отправки задания! <br>
-Создана отдельная ветка для дальнейшей разработки - https://github.com/xRA1Nx/Test-Work/tree/postgres<br>
+<b>UPD</b>: Создана отдельная ветка - https://github.com/xRA1Nx/Test-Work/tree/postgres наработки в которой произведены уже после отправки задания! <br>
 <ul>
 <li>БД переделана на PostgreSql</li>
 <li>Проект завернут в контенер (Docker-compose)</li>
