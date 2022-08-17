@@ -6,7 +6,7 @@ WORKDIR /code
 COPY req.txt /code/
 RUN pip install -r req.txt
 COPY . /code/
-#EXPOSE 8000
+EXPOSE 8000
 RUN python manage.py makemigrations
 
 
