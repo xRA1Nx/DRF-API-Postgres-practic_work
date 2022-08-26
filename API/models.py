@@ -33,6 +33,8 @@ class Bill(models.Model):
     service_class = models.ForeignKey(ServiceClass, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
+
+
     class Meta:
         # unique_together = ('internal_number', 'company') - лучше не использовать, может устареть в будущем
         constraints = [
